@@ -128,7 +128,7 @@ public class ETAPrinter {
             this.stream.write("\r".getBytes());
             this.stream.write(status.getBytes());
         } catch (IOException e) {
-            throw new ETAPrinterException("An error occurred while printing the status",                    e);
+            throw new ETAPrinterException("An error occurred while printing the status", e);
         }
     }
 

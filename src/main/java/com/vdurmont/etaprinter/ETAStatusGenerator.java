@@ -32,27 +32,27 @@ public class ETAStatusGenerator {
         return getBar(percentage);
     }
 
-/**
- * Generate the full status.
- *
- * @param elementName the optional name of the element that is processed
- * @param percentage  the progression percentage
- * @param speed       the speed of the processing (in number of element by speed unit)
- * @param speedUnit   the unit of the given speed
- * @param eta         the estimated remaining duration for the processing
- *
- * @return the status string
- */
-public static String getStatus(String elementName, long percentage, double speed, String speedUnit, Duration eta) {
-    StringBuilder sb = new StringBuilder(getBar(percentage));
-    sb.append((long) speed);
-    if (elementName != null) {
-        sb.append(" ").append(elementName);
+    /**
+     * Generate the full status.
+     *
+     * @param elementName the optional name of the element that is processed
+     * @param percentage  the progression percentage
+     * @param speed       the speed of the processing (in number of element by speed unit)
+     * @param speedUnit   the unit of the given speed
+     * @param eta         the estimated remaining duration for the processing
+     *
+     * @return the status string
+     */
+    public static String getStatus(String elementName, long percentage, double speed, String speedUnit, Duration eta) {
+        StringBuilder sb = new StringBuilder(getBar(percentage));
+        sb.append((long) speed);
+        if (elementName != null) {
+            sb.append(" ").append(elementName);
+        }
+        sb.append("/").append(speedUnit);
+        sb.append(" ETA ").append(FORMATTER.print(eta.toPeriod()));
+        return sb.toString();
     }
-    sb.append("/").append(speedUnit);
-    sb.append(" ETA ").append(FORMATTER.print(eta.toPeriod()));
-    return sb.toString();
-}
 
     /**
      * Generates the progress bar for the given percentage

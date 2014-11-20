@@ -8,6 +8,14 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnit4.class)
 public class ETAStatusGeneratorTest {
+    private static String generate(String str, int times) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < times; i++) {
+            sb.append(str);
+        }
+        return sb.toString();
+    }
+
     @Test
     public void getBar_at_0_percent() {
         // GIVEN
@@ -66,13 +74,5 @@ public class ETAStatusGeneratorTest {
         // THEN
         String expectedBar = "100% [" + generate("=", 100) + "] ";
         assertEquals(expectedBar, actualBar);
-    }
-
-    private static String generate(String str, int times) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < times; i++) {
-            sb.append(str);
-        }
-        return sb.toString();
     }
 }
