@@ -17,7 +17,7 @@ public class App {
             printer.update(10);
         }
 
-        printer.close();
+        System.out.println("The gorilla ate all the bananas!");
     }
 
     private static List<Banana> generateBananas(int number) {

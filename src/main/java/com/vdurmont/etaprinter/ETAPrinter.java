@@ -137,7 +137,7 @@ public class ETAPrinter {
      */
     public void close() {
         try {
-            String endString = ETAStatusGenerator.getStatus(100) + " Complete.\n";
+            String endString = "\r" + ETAStatusGenerator.getStatus(100) + " Complete.\n";
             this.stream.write(endString.getBytes());
             if (this.closeStream) {
                 this.stream.close();

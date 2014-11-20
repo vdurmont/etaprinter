@@ -45,8 +45,6 @@ while(source.hasNext()) {
   // We update the ETA by giving the number of elements that were processed since the last update
   printer.update(elements.size());
 }
-
-printer.close(); // End the process
 ```
 
 ## Advanced usage
@@ -65,4 +63,4 @@ Parameters:
 If this parameter is given, the speed will be printer with the following format: `42 [elementName]/s`. Else, it will be `42/s`.
 * `stream`: the OutputStream where the ETA is printed  
 Default value is `System.out`.
-* `closeStream`: if true, the stream will be closed when you'll call the `close()` method on the ETAPrinter.
+* `closeStream`: if true, the stream will be closed when the process will end (the number of processed elements will be greater or equal to the total number of elements).
