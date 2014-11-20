@@ -7,7 +7,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>eta-printer</name>
+    <name>etaprinter</name>
     <url>http://maven.apache.org</url>
 
     <properties>
