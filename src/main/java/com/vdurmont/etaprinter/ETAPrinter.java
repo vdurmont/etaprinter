@@ -25,6 +25,7 @@ public class ETAPrinter {
     private final OutputStream stream;
     private final boolean closeStream;
     private final long totalElementsToProcess;
+    private boolean closed;
     private DateTime lastStep;
     private long numProcessed;
 
@@ -39,6 +40,7 @@ public class ETAPrinter {
         this.lastStep = startDate;
         this.numProcessed = 0;
         this.closeStream = closeStream;
+        this.closed = false;
     }
 
     /**
@@ -105,6 +107,9 @@ public class ETAPrinter {
      * @param numProcessedDuringStep the number of items processed during the elapsed step
      */
     public void update(long numProcessedDuringStep) {
+        if (this.closed) {
+            throw new ETAPrinterException("You cannot update a closed ETAPrinter!");
+        }
         DateTime now = DateTime.now();
         Long itemDurationMillis = null;
         if (numProcessedDuringStep > 0) {
@@ -132,10 +137,8 @@ public class ETAPrinter {
         }
     }
 
-    /**
-     * Prints the last progress bar and closes the stream if needed.
-     */
-    public void close() {
+    private void close() {
+        this.closed = true;
         try {
             String endString = "\r" + ETAStatusGenerator.getStatus(100) + " Complete.\n";
             this.stream.write(endString.getBytes());

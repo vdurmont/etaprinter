@@ -15,4 +15,13 @@ public class ETAPrinterException extends RuntimeException {
     public ETAPrinterException(String message, Throwable throwable) {
         super(message, throwable);
     }
+
+    /**
+     * Constructor for the {@link com.vdurmont.etaprinter.ETAPrinterException}
+     *
+     * @param message the message for the error
+     */
+    public ETAPrinterException(String message) {
+        super(message);
+    }
 }
