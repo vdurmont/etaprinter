@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class App {
     public static void main(String[] args) {
-        List<Banana> bananas = generateBananas(1000);
+        List<Banana> bananas = generateBananas(100);
         Gorilla gorilla = new Gorilla();
         int index = 0;
 

@@ -18,7 +18,7 @@ Clone this github repository, launch `mvn clean install` and add the following m
 <dependency>
   <groupId>com.vdurmont</groupId>
   <artifactId>etaprinter</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
@@ -60,7 +60,7 @@ Parameters:
 
 * `total`: total number of elements that are going to be processed  
 * `elementName`: the name of the element  
-If this parameter is given, the speed will be printer with the following format: `42 [elementName]/s`. Else, it will be `42/s`.
+If this parameter is given, the speed will be printed with the following format: `42 [elementName]/s`. Else, it will be `42/s`.
 * `stream`: the OutputStream where the ETA is printed  
 Default value is `System.out`.
-* `closeStream`: if true, the stream will be closed when the process will end (the number of processed elements will be greater or equal to the total number of elements).
+* `closeStream`: if true, the stream will be closed when the process will end (the number of processed elements will be greater or equal to the total number of elements). Default is `false`.
