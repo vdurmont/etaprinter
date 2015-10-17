@@ -111,23 +111,29 @@ public class ETAPrinter {
             throw new ETAPrinterException("You cannot update a closed ETAPrinter!");
         }
         DateTime now = DateTime.now();
-        Long itemDurationMillis = null;
+        ItemsDuration itemsDuration = null;
         if (numProcessedDuringStep > 0) {
-            itemDurationMillis = new Duration(this.lastStep, now).getMillis() / numProcessedDuringStep;
+            long stepDuration = new Duration(this.lastStep, now).getMillis();
+            int numItems = 1;
+            do {
+                long duration = stepDuration / (numProcessedDuringStep / numItems);
+                itemsDuration = new ItemsDuration(numItems, duration);
+                numItems++;
+            } while (itemsDuration.durationMillis == 0);
         }
         this.lastStep = now;
         this.numProcessed += numProcessedDuringStep;
         if (this.numProcessed == this.totalElementsToProcess) {
             this.close();
         } else {
-            this.print(itemDurationMillis);
+            this.print(itemsDuration);
         }
     }
 
-    private void print(Long itemDurationMillis) {
+    private void print(ItemsDuration itemsDuration) {
         try {
             // Get the status
-            String status = this.getStatus(itemDurationMillis);
+            String status = this.getStatus(itemsDuration);
 
             // Carriage return and print the status
             this.stream.write("\r".getBytes());
@@ -150,23 +156,33 @@ public class ETAPrinter {
         }
     }
 
-    private String getStatus(Long itemDurationMillis) {
+    private String getStatus(ItemsDuration itemsDuration) {
         long percentage = this.numProcessed * 100 / this.totalElementsToProcess;
-        if (itemDurationMillis == null) {
+        if (itemsDuration == null) {
             return ETAStatusGenerator.getStatus(percentage);
         } else {
-            long etaMillis = (this.totalElementsToProcess - this.numProcessed) * itemDurationMillis;
-            double speed;
+            long etaMillis = (this.totalElementsToProcess - this.numProcessed) * itemsDuration.durationMillis / itemsDuration.numItems;
+            double speed = 0;
             int index = 0;
             int speedFactor = 1;
             do {
                 speedFactor *= SPEED_FACTORS[index];
-                speed = speedFactor / itemDurationMillis;
+                speed = speedFactor * itemsDuration.numItems / itemsDuration.durationMillis;
                 index++;
             } while (speed == 0 && index < SPEED_UNITS.length);
 
             Duration eta = new Duration(etaMillis);
             return ETAStatusGenerator.getStatus(this.elementName, percentage, speed, SPEED_UNITS[index - 1], eta);
+        }
+    }
+
+    private static class ItemsDuration {
+        public final int numItems;
+        public final long durationMillis;
+
+        private ItemsDuration(int numItems, long durationMillis) {
+            this.numItems = numItems;
+            this.durationMillis = durationMillis;
         }
     }
 }
